@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>祝福墙 - 生日快乐！</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav-menu">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">首页</a>
+            <a href="gallery.html" class="nav-item">照片墙</a>
+            <a href="schedule.html" class="nav-item">课程表</a>
+            <a href="wishes.html" class="nav-item active">祝福墙</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="message-board">
+            <h2>祝福墙</h2>
+            <div class="message-container">
+                <textarea id="message-input" placeholder="写下你的祝福..."></textarea>
+                <button id="submit-message">发送祝福</button>
+            </div>
+            <div id="messages-list" class="messages-list"></div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
