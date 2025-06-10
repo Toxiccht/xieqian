@@ -86,6 +86,7 @@ submitButton.addEventListener('click', () => {
         addMessageToDOM(message);
         saveMessage(message);
         messageInput.value = '';
+        createHeart(); // 发送留言时创建爱心特效
     }
 });
 
@@ -99,4 +100,59 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.transition = 'opacity 1s ease';
         document.body.style.opacity = '1';
     }, 100);
+
+    // 初始化互动游戏
+    initGame();
+});
+
+// 爱心特效
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+// 互动游戏
+function initGame() {
+    const gameContainer = document.createElement('div');
+    gameContainer.className = 'game-container';
+    gameContainer.innerHTML = `
+        <div class="game-title">点击爱心</div>
+        <div class="game-score">得分: <span id="score">0</span></div>
+        <div class="game-heart"></div>
+    `;
+    document.body.appendChild(gameContainer);
+
+    let score = 0;
+    const scoreElement = document.getElementById('score');
+    const gameHeart = document.querySelector('.game-heart');
+
+    gameHeart.addEventListener('click', () => {
+        score++;
+        scoreElement.textContent = score;
+        createHeart();
+        moveHeart();
+    });
+
+    function moveHeart() {
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 100);
+        gameHeart.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // 初始移动爱心
+    moveHeart();
+}
+
+// 添加键盘事件监听
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'h' || e.key === 'H') {
+        createHeart();
+    }
 }); 
