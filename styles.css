@@ -500,6 +500,7 @@ button:hover {
     height: 200px;
     margin: 20px auto;
     position: relative;
+    perspective: 1000px;
 }
 
 /* 兔子样式 */
@@ -508,6 +509,8 @@ button:hover {
     height: 100%;
     position: relative;
     transition: transform 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 /* 兔子身体 */
@@ -516,12 +519,14 @@ button:hover {
     position: absolute;
     width: 100px;
     height: 120px;
-    background: #f8f8f8;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
     border-radius: 50% 50% 45% 45%;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%) rotateX(10deg);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 兔子耳朵 */
@@ -530,12 +535,15 @@ button:hover {
     position: absolute;
     width: 20px;
     height: 60px;
-    background: #f8f8f8;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
     border-radius: 10px;
     top: 20px;
     left: 50%;
-    transform: translateX(-50%);
-    box-shadow: -30px 0 0 #f8f8f8, 30px 0 0 #f8f8f8;
+    transform: translateX(-50%) rotateX(10deg);
+    box-shadow: 
+        -30px 0 0 linear-gradient(145deg, #ffffff, #f0f0f0),
+        30px 0 0 linear-gradient(145deg, #ffffff, #f0f0f0),
+        0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 兔子眼睛 */
@@ -547,8 +555,11 @@ button:hover {
     border-radius: 50%;
     top: 45%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: -20px 0 0 #333, 20px 0 0 #333;
+    transform: translate(-50%, -50%) rotateX(10deg);
+    box-shadow: 
+        -20px 0 0 #333,
+        20px 0 0 #333,
+        0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* 兔子鼻子 */
@@ -556,11 +567,12 @@ button:hover {
     position: absolute;
     width: 15px;
     height: 10px;
-    background: #ff9999;
+    background: linear-gradient(145deg, #ff9999, #ff8080);
     border-radius: 50%;
     top: 55%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotateX(10deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 兔子嘴巴 */
@@ -572,7 +584,7 @@ button:hover {
     border-radius: 0 0 10px 10px;
     top: 60%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotateX(10deg);
 }
 
 /* 兔子状态 */
@@ -580,14 +592,15 @@ button:hover {
     border-radius: 10px;
     border-bottom: none;
     border-top: 2px solid #333;
+    transform: translate(-50%, -50%) rotateX(10deg);
 }
 
 .pet.sad .mouth {
-    transform: translate(-50%, -50%) rotate(180deg);
+    transform: translate(-50%, -50%) rotateX(10deg) rotate(180deg);
 }
 
 .pet.sleeping .eyes {
-    transform: translate(-50%, -50%) scaleY(0.2);
+    transform: translate(-50%, -50%) rotateX(10deg) scaleY(0.2);
 }
 
 .pet.sleeping .mouth {
@@ -595,27 +608,56 @@ button:hover {
 }
 
 .pet.sleeping::after {
-    transform: translateX(-50%) rotate(-20deg);
-    box-shadow: -30px 0 0 #f8f8f8, 30px 0 0 #f8f8f8;
+    transform: translateX(-50%) rotate(-20deg) rotateX(10deg);
 }
 
-/* 动画效果 */
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+/* 3D动画效果 */
+@keyframes bounce3D {
+    0%, 100% { 
+        transform: translateY(0) rotateX(10deg) rotateY(0deg); 
+    }
+    25% { 
+        transform: translateY(-10px) rotateX(10deg) rotateY(5deg); 
+    }
+    75% { 
+        transform: translateY(-10px) rotateX(10deg) rotateY(-5deg); 
+    }
 }
 
-@keyframes sleep {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(0.95); }
+@keyframes sleep3D {
+    0%, 100% { 
+        transform: scale(1) rotateX(10deg); 
+    }
+    50% { 
+        transform: scale(0.95) rotateX(10deg); 
+    }
 }
 
 .pet.happy {
-    animation: bounce 0.5s ease infinite;
+    animation: bounce3D 1s ease infinite;
 }
 
 .pet.sleeping {
-    animation: sleep 2s ease infinite;
+    animation: sleep3D 2s ease infinite;
+}
+
+/* 添加鼠标悬停效果 */
+.pet:hover {
+    transform: rotateY(10deg);
+}
+
+/* 添加阴影效果 */
+.pet-display::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(5px);
 }
 
 .pet-actions {
