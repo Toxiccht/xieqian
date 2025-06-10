@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">生日快乐！</h1>
+            <div class="subtitle">愿你的每一天都充满阳光和欢笑</div>
+        </header>
+
+        <section class="photo-gallery">
+            <h2>我们的美好回忆</h2>
+            <div class="gallery-container">
+                <!-- 这里可以添加照片 -->
+                <div class="photo-placeholder">添加照片</div>
+                <div class="photo-placeholder">添加照片</div>
+                <div class="photo-placeholder">添加照片</div>
+            </div>
+        </section>
+
+        <section class="wishes">
+            <h2>生日祝福</h2>
+            <div class="wish-container">
+                <div class="wish-card">
+                    <p>愿你的生日充满欢乐和惊喜！</p>
+                </div>
+                <div class="wish-card">
+                    <p>愿你的未来充满无限可能！</p>
+                </div>
+                <div class="wish-card">
+                    <p>愿你的笑容永远灿烂如花！</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="countdown">
+            <h2>距离下一个生日还有</h2>
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <span class="label">天</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <span class="label">时</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <span class="label">分</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span>
+                    <span class="label">秒</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="music-player">
+            <h2>生日歌</h2>
+            <div class="player-container">
+                <audio id="birthday-song" controls>
+                    <source src="birthday-song.mp3" type="audio/mpeg">
+                    您的浏览器不支持音频播放。
+                </audio>
+            </div>
+        </section>
+
+        <section class="message-board">
+            <h2>留言板</h2>
+            <div class="message-container">
+                <textarea id="message-input" placeholder="写下你的祝福..."></textarea>
+                <button id="submit-message">发送祝福</button>
+            </div>
+            <div id="messages-list" class="messages-list"></div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
