@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HI, I'M LELEO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Oxanium:wght@700&display=swap');
+
+        body {
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('images/background.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            color: #fff;
+            overflow: hidden; /* Prevent body scrollbar */
+            display: grid; /* 使用 Grid 布局定义页面整体结构 */
+            grid-template-columns: 80px 1fr; /* 定义两列：左侧侧边栏宽度80px，右侧主内容区占据剩余空间 */
+            grid-template-rows: 220px 1fr; /* 定义两行：顶部头部区域高度220px，下方主内容区占据剩余空间 */
+            gap: 20px; /* 定义网格项目之间的间距 */
+            box-sizing: border-box;
+        }
+
+        body::before {
+            content: '';
+            position: absolute; /* 绝对定位，覆盖整个body */
+            top: 0; /* 距离顶部0 */
+            left: 0; /* 距离左侧0 */
+            right: 0; /* 距离右侧0 */
+            bottom: 0; /* 距离底部0 */
+            background: rgba(0, 0, 0, 0.2); /* 半透明黑色背景，用于增加文字对比度 */
+            backdrop-filter: blur(5px); /* 背景模糊效果 */
+            z-index: -1; /* 放置在内容下方 */
+        }
+
+        .container {
+            grid-column: 1 / 3; /* 横跨第1列到第3列（即整个网格宽度），作为主内容区域的容器 */
+            grid-row: 1 / 3; /* 纵跨第1行到第3行（即整个网格高度） */
+            display: contents; /* 使子元素直接参与父容器的网格布局，而不创建额外的盒子 */
+            box-sizing: border-box;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            grid-column: 1; /* 位于网格的第1列（左侧侧边栏） */
+            grid-row: 1 / 3; /* 纵跨第1行到第3行（即整个网格高度） */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 20; /* 确保侧边栏在最顶层 */
+        }
+
+        .sidebar .icon-group {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar .icon-group a,
+        .sidebar .settings-icon {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 24px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar .icon-group a:hover,
+        .sidebar .settings-icon:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .sidebar .settings-icon {
+            margin-top: auto; /* 将设置图标推到侧边栏底部 */
+        }
+
+        /* Header Section Styling */
+        .header-section {
+            grid-column: 2; /* 位于网格的第2列（主内容区） */
+            grid-row: 1; /* 位于网格的第1行（头部区域） */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* 头部内容顶部对齐 */
+            padding: 20px 20px 0 0; /* 头部内容内边距 */
+            position: relative; /* 为内部的绝对定位元素提供参考 */
+            width: 100%; /* 占据其网格单元格的全部宽度 */
+            box-sizing: border-box;
+        }
+
+        .header-left, .header-center, .header-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        /* **头像卡片和标签卡片位置控制** */
+        .header-left {
+            align-items: center; /* 使头像和标签在其内部水平居中对齐 */
+            position: absolute; /* 绝对定位，相对于其父元素 .header-section 定位 */
+            top: 20px; /* 距离父元素顶部 20px */
+            left: 20px; /* 距离父元素左侧 20px，将头像和标签卡片放置在左上角 */
+            right: auto; /* 移除右侧的定位限制，确保 `left` 属性生效 */
+            z-index: 10;
+            flex-direction: column; /* 使头像和标签垂直堆叠 */
+        }
+
+        .header-center {
+            align-items: center;
+            justify-content: center;
+            position: absolute; /* 绝对定位，相对于其父元素 .header-section 定位 */
+            top: 50%; /* 距离父元素顶部 50% */
+            left: 50%; /* 距离父元素左侧 50% */
+            transform: translate(-50%, -50%); /* 向上和向左移动自身宽高的各50%，实现精确居中 */
+            z-index: 1;
+            width: 70%;
+            text-align: center;
+        }
+
+        /* **时间卡片位置控制** */
+        .header-right {
+            align-items: flex-end; /* 使其内部元素（时间日期小部件）右对齐 */
+            position: absolute; /* 绝对定位，相对于其父元素 .header-section 定位 */
+            top: 70px; /* 距离父元素顶部 20px */
+            right: 70px; /* 距离父元素右侧 0px，将时间卡片放置在右上角 */
+            z-index: 10;
+        }
+
+        /* Main Content Area Styling */
+        .main-content-area {
+            grid-column: 2; /* 位于网格的第2列（主内容区） */
+            grid-row: 2; /* 位于网格的第2行（主内容区，在头部下方） */
+            display: flex;
+            flex-direction: column;
+            gap: 40px; /* 引用部分和项目部分之间的间距 */
+            padding: 0 20px 20px 20px; /* 内边距，顶部由头部处理，底部和两侧用于滚动和对齐 */
+            overflow-y: auto; /* 允许内容垂直滚动 */
+            box-sizing: border-box;
+            align-items: flex-end; /* 使主内容区域内的所有子元素（如引用和项目部分）向右对齐 */
+        }
+
+        /* Music Player / Avatar */
+        .profile-card {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The actual avatar image that rotates */
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-image: url('images/avatar.jpg'); /* Your avatar image */
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.1s linear, opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        /* Rotation animation */
+        @keyframes avatar-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-avatar.playing {
+            animation: avatar-rotate 10s linear infinite;
+        }
+
+        /* The player overlay with controls */
+        .music-player-overlay {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Show player overlay on hover */
+        .profile-card:hover .music-player-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Adjust song title, artist info, controls */
+        .song-title {
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            margin-bottom: 5px;
+        }
+
+        .artist-info {
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .play-pause-button {
+            width: 50px;
+            height: 50px;
+            font-size: 1.8em;
+        }
+
+        /* Toggle play/pause icons */
+        .play-pause-button .fa-pause {
+            display: none;
+        }
+        .music-player-card.playing .play-pause-button .fa-play {
+            display: none;
+        }
+        .music-player-card.playing .play-pause-button .fa-pause {
+            display: inline-block;
+        }
+
+        /* Tags Section */
+        /* **标签卡片位置控制 (与头像卡片同父元素，受其定位影响)** */
+        .tags-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: auto;
+            margin-top: 0; /* 确保其紧邻头像卡片下方，无额外上边距 */
+        }
+
+        .tags-section .tags-title {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .tags-section .tag-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center; /* 标签按钮在其容器内水平居中 */
+        }
+
+        .tags-section .tag-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            font-size: 0.9em;
+        }
+
+        .tags-section .tag-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Logo (HI, I'M LELEO) */
+        .logo {
+            font-family: 'Oxanium', sans-serif;
+            font-size: 4em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 3px;
+            white-space: nowrap;
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        /* Time/Date Widget */
+        /* **时间卡片位置控制 (已在 .header-right 中注释)** */
+        .time-date-widget {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            font-size: 1.2em;
+            width: 220px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .time-date-widget:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .time-display {
+            font-family: 'Oxanium', sans-serif;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+        }
+
+        .date-display {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Circular animation for time widget */
+        .circular-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .circular-animation::before,
+        .circular-animation::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            animation: rotate 5s linear infinite;
+        }
+
+        .circular-animation::before {
+            width: 80px;
+            height: 80px;
+            border-color: rgba(0, 255, 255, 0.6) transparent transparent transparent;
+            animation-delay: 0s;
+        }
+
+        .circular-animation::after {
+            width: 120px;
+            height: 120px;
+            border-color: rgba(0, 255, 255, 0.8) transparent transparent transparent;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Lyrics Display */
+        .lyrics-display {
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            font-size: 1.5em;
+            color: #fff;
+            text-align: center;
+            z-index: 2;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+
+        .lyrics-display.active {
+            opacity: 1;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.2em;
+            line-height: 1.5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            padding: 0 40px;
+            align-self: center; /* 确保引用部分在主内容区内保持居中 */
+        }
+
+        .quote-section::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 10px 0;
+        }
+
+        /* Project Section */
+        /* **项目卡片位置控制** */
+        .project-section {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8em;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            max-width: 700px; /* 限制项目卡片区域的最大宽度 */
+            align-self: flex-end; /* 使整个项目区域在其父容器 .main-content-area 中向右对齐 */
+            box-sizing: border-box;
+            padding-right: 20px; /* 距离右侧的内边距 */
+            padding-left: 0; /* 移除左侧内边距 */
+            width: 100%; /* 占据父容器的全部宽度（受max-width限制） */
+            margin-left: auto; /* 自动计算左侧外边距，将项目区域推向右侧 */
+            /* margin-right: 20px; /* 也可以使用固定的右侧外边距来控制距离 */
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 定义网格列，最小宽度320px，自动填充 */
+            gap: 20px;
+            justify-content: flex-end; /* 使网格项目在其容器内向右对齐 */
+            width: 100%; /* 占据父容器的全部宽度 */
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 330px;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .project-card .card-image {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: contain;
+            margin: 0 0 10px 0;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: block;
+        }
+
+        .project-card h3 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-card p {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .project-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .project-card .go-button {
+            background: rgba(0, 255, 255, 0.7);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .project-card .go-button:hover {
+            background: rgba(0, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .dropdown-arrow {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2em;
+            display: inline-block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            body {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto 1fr;
+                gap: 20px;
+            }
+
+            .sidebar {
+                grid-column: 1;
+                grid-row: 2;
+                flex-direction: row;
+                justify-content: center;
+                padding: 10px 0;
+                width: 100%;
+            }
+
+            .sidebar .icon-group {
+                flex-direction: row;
+            }
+
+            .header-section {
+                grid-column: 1;
+                grid-row: 1;
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+                height: auto;
+                position: static;
+                gap: 20px;
+            }
+
+            .header-left, .header-center, .header-right {
+                position: static;
+                transform: none;
+                width: 100%;
+                align-items: center;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .header-left {
+                order: 1;
+            }
+            .header-center {
+                order: 2;
+            }
+            .header-right {
+                order: 3;
+            }
+
+            .tags-section {
+                margin-top: 0;
+            }
+
+            .time-date-widget {
+                margin-top: 0;
+            }
+
+            .main-content-area {
+                grid-column: 1;
+                grid-row: 3;
+                padding: 10px;
+                align-items: center;
+            }
+
+            .project-section {
+                align-self: center;
+                max-width: 100%;
+                padding: 0 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5em;
+            }
+
+            .profile-card {
+                width: 150px;
+                height: 150px;
+                min-width: 150px;
+                min-height: 150px;
+            }
+
+            .song-title {
+                font-size: 1em;
+            }
+
+            .artist-info {
+                font-size: 0.8em;
+            }
+
+            .control-button {
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
+            }
+
+            .play-pause-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5em;
+            }
+
+            .lyrics-display {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="icon-group">
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="Mail"><i class="fas fa-envelope"></i></a>
+                <a href="#" aria-label="Notifications"><i class="fas fa-bell"></i></a>
+                <a href="#" aria-label="WeChat"><i class="fab fa-weixin"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            </div>
+            <i class="fas fa-cog settings-icon"></i>
+        </aside>
+
+        <header class="header-section">
+            <div class="header-left">
+                <div class="profile-card" id="music-player-card">
+                    <div class="profile-avatar" id="profile-avatar"></div>
+                    <div class="music-player-overlay" id="music-player-overlay">
+                        <div class="song-title" id="song-title">Starry Sky</div>
+                        <div class="artist-info" id="artist-info">Pam_dinosaur / Krztc</div>
+                        <div class="player-controls">
+                            <button class="control-button" id="prev-button"><i class="fas fa-backward"></i></button>
+                            <button class="control-button play-pause-button" id="play-pause-button">
+                                <i class="fas fa-play"></i>
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button class="control-button" id="next-button"><i class="fas fa-forward"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tags-section">
+                    <div class="tags-title">Tags</div>
+                    <div class="tag-buttons">
+                        <button class="tag-button">乐观开朗</button>
+                        <button class="tag-button">温柔体贴</button>
+                        <button class="tag-button">随和亲切</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <div class="lyrics-display" id="lyrics-display">点击头像播放音乐并显示歌词</div>
+                <div class="logo">HI, I'M LELEO</div>
+            </div>
+
+            <div class="header-right">
+                <div class="time-date-widget" id="time-date-widget">
+                    <div class="time-display" id="time-display"></div>
+                    <div class="date-display" id="date-display"></div>
+                    <div class="circular-animation"></div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content-area">
+            <div class="quote-section">
+                <!-- "顶峰的少年，给了你所有细节，你却说我不是迪迦，给不了你想要的" -->
+            </div>
+
+            <div class="project-section">
+                <div class="project-grid">
+                    <div class="project-card">
+                        <img src="images/test.png" alt="博客" class="card-image">
+                        <h3>博客</h3>
+                        <p>写不了写不了一点</p>
+                        <div class="card-footer">
+                            <button class="go-button">
+                                <i class="fas fa-rocket"></i> 前往
+                            </button>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="images/no4.jpg" alt="网盘" class="card-image">
+                        <h3>网盘</h3>
+                        <p>云端的百宝箱，数据的避风港</p>
+                        <div class="card-footer">
+                            <button class="go-button">
+                                <i class="fas fa-folder-open"></i> 前往
+                            </button>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="music/sample.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const musicPlayerCard = document.getElementById('music-player-card');
+            const profileAvatar = document.getElementById('profile-avatar');
+            const backgroundMusic = document.getElementById('background-music');
+            const playPauseButton = document.getElementById('play-pause-button');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const lyricsDisplay = document.getElementById('lyrics-display');
+            const timeDisplay = document.getElementById('time-display');
+            const dateDisplay = document.getElementById('date-display');
+
+            let isPlaying = false;
+
+            // Sample music data (you would load this dynamically in a real app)
+            const musicTracks = [
+                {
+                    title: 'Starry Sky',
+                    artist: 'Pam_dinosaur / Krztc',
+                    src: 'music/sample.mp3',
+                    lyrics: [
+                        { time: 0, text: '点击头像播放音乐并显示歌词' },
+                        { time: 5, text: '夜空中最亮的星' },
+                        { time: 10, text: '能否听清' },
+                        { time: 15, text: '那远方的我' },
+                        { time: 20, text: '思念的声音' },
+                        { time: 25, text: '它很微弱' },
+                        { time: 30, text: '却很坚定' }
+                    ]
+                }
+            ];
+            let currentTrackIndex = 0;
+
+            function loadTrack(index) {
+                const track = musicTracks[index];
+                backgroundMusic.src = track.src;
+                document.getElementById('song-title').textContent = track.title;
+                document.getElementById('artist-info').textContent = track.artist;
+                lyricsDisplay.textContent = track.lyrics[0].text; // Reset lyrics
+                if (isPlaying) {
+                    backgroundMusic.play();
+                }
+            }
+
+            function togglePlayPause() {
+                if (isPlaying) {
+                    backgroundMusic.pause();
+                    profileAvatar.classList.remove('playing');
+                    musicPlayerCard.classList.remove('playing');
+                } else {
+                    backgroundMusic.play();
+                    profileAvatar.classList.add('playing');
+                    musicPlayerCard.classList.add('playing');
+                }
+                isPlaying = !isPlaying;
+            }
+
+            function playNextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+                loadTrack(currentTrackIndex);
+            }
+
+            function playPrevTrack() {
+                currentTrackIndex = (currentTrackIndex - 1 + musicTracks.length) % musicTracks.length;
+                loadTrack(currentTrackIndex);
+            }
+
+            // Only the play/pause button controls the music
+            playPauseButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent clicks on button from propagating to the card
+                togglePlayPause();
+            });
+
+            prevButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                playPrevTrack();
+            });
+
+            nextButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                playNextTrack();
+            });
+
+            backgroundMusic.addEventListener('timeupdate', () => {
+                const currentTime = backgroundMusic.currentTime;
+                const currentLyrics = musicTracks[currentTrackIndex].lyrics;
+                let activeLyric = currentLyrics[0].text; // Default to the first lyric
+                
+                for (let i = 0; i < currentLyrics.length; i++) {
+                    if (currentTime >= currentLyrics[i].time) {
+                        activeLyric = currentLyrics[i].text;
+                    } else {
+                        break; // Lyrics are sorted by time, so no need to check further
+                    }
+                }
+                lyricsDisplay.textContent = activeLyric;
+                lyricsDisplay.classList.add('active'); // Ensure lyrics are visible when music starts
+            });
+
+            backgroundMusic.addEventListener('ended', () => {
+                playNextTrack();
+            });
+
+            // Initial load of the first track
+            loadTrack(currentTrackIndex);
+
+            // Time and Date Widget
+            function updateDateTime() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                timeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const daysOfWeek = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+                const dayOfWeek = daysOfWeek[now.getDay()];
+                dateDisplay.textContent = `${year}年${month}月${day}日 ${dayOfWeek}`;
+            }
+
+            setInterval(updateDateTime, 1000);
+            updateDateTime(); // Initial call
+        });
+    </script>
+</body>
+</html> 

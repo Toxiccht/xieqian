@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彩蛋页面</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('images/background.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            color: #fff;
+            text-align: center;
+            overflow: hidden; /* 防止内容溢出导致滚动条 */
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); /* Darker overlay for contrast */
+            backdrop-filter: blur(8px); /* More blur for a mysterious feel */
+            z-index: -1;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 80%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInSlide 1s forwards;
+            position: relative; /* For absolutely positioned elements inside */
+            min-width: 400px; /* Ensure enough space for typing text */
+        }
+
+        @keyframes fadeInSlide {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1.5em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px; /* Space between buttons */
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .action-button { /* General style for clickable buttons */
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            outline: none; /* Remove focus outline */
+        }
+
+        .action-button:hover {
+            background-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Typewriter animation specific styles */
+        .typewriter-content {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden; /* Initial state, content hidden */
+            transition: opacity 0.5s ease, max-height 0.5s ease;
+            text-align: left; /* Align text to left for typewriter effect */
+            width: 100%; /* Take full width of container */
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.5); /* Darker background for code/text */
+            border-radius: 8px;
+            font-family: 'Roboto Mono', monospace; /* Monospace font for typewriter feel */
+            font-size: 1.1em;
+            line-height: 1.6;
+            white-space: pre-wrap; /* Preserve whitespace and wrap text */
+            color: #0f0; /* Green text for terminal feel */
+            border: 1px solid rgba(0, 255, 0, 0.5); /* Green border */
+        }
+
+        .typewriter-content.active {
+            opacity: 1;
+            max-height: 80vh; /* Increased max-height to allow more content */
+            overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
+            transition: opacity 1s ease, max-height 1s ease;
+        }
+
+        /* Customize scrollbar for .typewriter-content (Webkit browsers) */
+        .typewriter-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .typewriter-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .typewriter-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 0, 0.5);
+            border-radius: 10px;
+        }
+        .typewriter-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 0, 0.7);
+        }
+
+
+        .typewriter-cursor {
+            font-weight: bold;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        /* The typewriter cursor animation */
+        @keyframes blink-caret {
+            from, to { border-right-color: transparent }
+            50% { border-right-color: #0f0; } /* Blinking green cursor */
+        }
+
+        /* Initial content hiding */
+        .initial-content.hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none; /* Disable clicks */
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="initial-content">
+            <h1>恭喜你找到了彩蛋！</h1>
+            <p>这是一个隐藏的惊喜页面！<br>感谢您的探索精神和对细节的关注。</p>
+            <div class="button-group">
+                <button id="exploreButton" class="action-button">继续探索</button>
+                <a href="index.html" class="action-button back-button">返回主页</a>
+            </div>
+        </div>
+
+        <pre id="typewriterText" class="typewriter-content"></pre>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const exploreButton = document.getElementById('exploreButton');
+            const initialContent = document.querySelector('.initial-content');
+            const typewriterTextElement = document.getElementById('typewriterText');
+
+            const textToType = [
+                "你好，勇敢的探索者！",
+                "你已经发现了一个秘密之地。",
+                "", // 空行
+                "每次你解决一个难题，",
+                "都会解锁新的可能。",
+                "",
+                "你是否准备好迎接下一次挑战？",
+                "旅途才刚刚开始...",
+                "",
+                "保持好奇，继续前行！",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "哈哈哈哈哈哈哈哈!",
+                "虽迟但到，怎么说嘞，还是遇到了太多困难了，作为一个开发者，灵感真的太重要了!",
+                "一开始是想朝着实用性的方面发展,这样不至于看一次基本就不会再打开了嘛,但是觉得无论给你整一个什么功能市面上都有平替的东西。",
+                "所以到最后还是想着观赏性比较重要吧,毕竟作为一个电子赛博礼物嘛。",
+                "当然还有的是技术力实在不够,作为一个不能够展示数据的平台还是只能以观赏性为主了,所以目前就先这样吧，后续的功能得等以后再完善了吧。",
+                "哦，可别小看虽然只有这点内容，花的功夫可不小嘞。",
+                "最后就是祝你天天开心啦!"
+
+            ];
+            let lineIndex = 0;
+            let charIndex = 0;
+            let currentLine = '';
+            let isTyping = false;
+            let typingSpeed = 70; // 调整打字速度（毫秒）
+            let newLineDelay = 1000; // 每行结束后等待时间（毫秒）
+
+            function typeWriter() {
+                if (lineIndex < textToType.length) {
+                    currentLine = textToType[lineIndex];
+                    if (charIndex < currentLine.length) {
+                        typewriterTextElement.textContent += currentLine.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeWriter, typingSpeed);
+                    } else {
+                        // End of current line, add new line char and go to next line
+                        typewriterTextElement.textContent += '\n'; // Add actual newline
+                        lineIndex++;
+                        charIndex = 0;
+                        // If it's the last line, don't add extra delay
+                        if (lineIndex < textToType.length) {
+                            setTimeout(typeWriter, newLineDelay); // Wait before typing next line
+                        } else {
+                            typeWriter(); // Immediately proceed to finish
+                        }
+                    }
+                } else {
+                    isTyping = false;
+                    // Optionally remove cursor or keep it
+                    typewriterTextElement.innerHTML = typewriterTextElement.innerHTML.replace('<span class="typewriter-cursor">|</span>', '');
+                    console.log("打字动画完成。");
+                }
+            }
+
+            function startTypewriterAnimation() {
+                if (isTyping) return; // Prevent multiple animations
+                isTyping = true;
+                initialContent.classList.add('hidden'); // Hide initial content
+                typewriterTextElement.classList.add('active'); // Show typewriter content
+                typewriterTextElement.innerHTML = ''; // Clear any previous text
+
+                // Add blinking cursor
+                typewriterTextElement.innerHTML = '<span class="typewriter-cursor">|</span>';
+                // typewriterTextElement.focus(); // Give focus if needed - removed as it can cause issues
+
+                // Start typing from the first character
+                lineIndex = 0;
+                charIndex = 0;
+                // Start typing the first character after a short delay to allow CSS transition
+                setTimeout(typeWriter, 500); 
+            }
+
+            exploreButton.addEventListener('click', startTypewriterAnimation);
+        });
+    </script>
+</body>
+</html>

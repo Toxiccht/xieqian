@@ -1,104 +1,165 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生日快乐！</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <title>生日快乐</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&display=swap');
+        
+        body {
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('images/background.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+        .accordion-container {
+            display: flex;
+            overflow: hidden;
+            width: 70%;
+            max-width: 1200px;
+            height: 550px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .accordion-panel {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .accordion-panel:hover {
+            flex: 2;
+        }
+        .accordion-panel.active {
+            flex: 4;
+        }
+        .accordion-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
+            z-index: 1;
+            transition: background 0.5s ease-in-out;
+        }
+        .accordion-panel.active::before {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 70%);
+        }
+        .accordion-panel h2 {
+            position: relative;
+            z-index: 2;
+            top: auto;
+            left: 20px;
+            margin: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+        }
+        .accordion-panel.active h2 {
+            opacity: 1;
+        }
+        .accordion-panel p {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            font-size: 1.4em;
+            text-align: center;
+            padding: 0 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-family: 'ZCOOL XiaoWei', sans-serif;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        .accordion-panel.active p {
+            opacity: 1;
+        }
+        /* Background images for each panel */
+        .panel-1 { background-image: url('images/no1.png'); }
+        .panel-2 { background-image: url('images/no2.png'); }
+        .panel-3 { background-image: url('images/no3.png'); }
+        .panel-4 { background-image: url('images/no4.png'); }
+        .panel-5 { background-image: url('images/no5.png'); }
+    </style>
 </head>
 <body>
-    <!-- 开场动画 -->
-    <div class="opening-animation">
-        <div class="animation-content">
-            <h1>生日快乐！</h1>
-            <div class="hearts"></div>
+    <div class="accordion-container">
+        <div class="accordion-panel panel-1" data-panel="1">
+            <h2>NO1</h2>
+            <p>今天你会幸运一整天!!!</p>
+        </div>
+        <div class="accordion-panel panel-2 active" data-panel="2">
+            <h2>NO2</h2>
+            <p>信没有脚,却可以陪一个人走很远很远的路。</p>
+        </div>
+        <div class="accordion-panel panel-3" data-panel="3">
+            <h2>NO3</h2>
+            <p>每一天值得庆祝,许个愿吧,会实现的。</p>
+        </div>
+        <div class="accordion-panel panel-4" data-panel="4">
+            <h2>NO4</h2>
+            <p>你现在是成熟的苹果了,去吧,去过甜甜的生活。</p>
+        </div>
+        <div class="accordion-panel panel-5" data-panel="5">
+            <h2>NO5</h2>
+            <p>劝君莫惜金缕衣,劝君惜取少年时。</p>
         </div>
     </div>
 
-    <!-- 导航菜单 -->
-    <nav class="nav-menu">
-        <div class="nav-container">
-            <a href="index.html" class="nav-item active">首页</a>
-            <a href="gallery.html" class="nav-item">照片墙</a>
-            <a href="schedule.html" class="nav-item">课程表</a>
-            <a href="wishes.html" class="nav-item">祝福墙</a>
-            <a href="pet.html" class="nav-item">虚拟宠物</a>
-        </div>
-    </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const panels = document.querySelectorAll('.accordion-panel');
 
-    <div class="container">
-        <header class="header">
-            <h1 class="title">生日快乐！</h1>
-            <div class="subtitle">愿你的每一天都充满阳光和欢笑</div>
-        </header>
-
-        <section class="photo-gallery">
-            <h2>我们的美好回忆</h2>
-            <div class="gallery-container">
-                <!-- 这里可以添加照片 -->
-                <div class="photo-placeholder">添加照片</div>
-                <div class="photo-placeholder">添加照片</div>
-                <div class="photo-placeholder">添加照片</div>
-            </div>
-        </section>
-
-        <section class="wishes">
-            <h2>生日祝福</h2>
-            <div class="wish-container">
-                <div class="wish-card">
-                    <p>愿你的生日充满欢乐和惊喜！</p>
-                </div>
-                <div class="wish-card">
-                    <p>愿你的未来充满无限可能！</p>
-                </div>
-                <div class="wish-card">
-                    <p>愿你的笑容永远灿烂如花！</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="countdown">
-            <h2>距离下一个生日还有</h2>
-            <div class="countdown-container">
-                <div class="countdown-item">
-                    <span id="days">00</span>
-                    <span class="label">天</span>
-                </div>
-                <div class="countdown-item">
-                    <span id="hours">00</span>
-                    <span class="label">时</span>
-                </div>
-                <div class="countdown-item">
-                    <span id="minutes">00</span>
-                    <span class="label">分</span>
-                </div>
-                <div class="countdown-item">
-                    <span id="seconds">00</span>
-                    <span class="label">秒</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="music-player">
-            <h2>生日歌</h2>
-            <div class="player-container">
-                <audio id="birthday-song" controls>
-                    <source src="birthday-song.mp3" type="audio/mpeg">
-                    您的浏览器不支持音频播放。
-                </audio>
-            </div>
-        </section>
-
-        <section class="message-board">
-            <h2>留言板</h2>
-            <div class="message-container">
-                <textarea id="message-input" placeholder="写下你的祝福..."></textarea>
-                <button id="submit-message">发送祝福</button>
-            </div>
-            <div id="messages-list" class="messages-list"></div>
-        </section>
-    </div>
-    <script src="script.js"></script>
+            panels.forEach(panel => {
+                panel.addEventListener('click', () => {
+                    if (panel.dataset.panel === '1') {
+                        window.location.href = 'homepage.html';
+                    } else if (panel.dataset.panel === '3') {
+                        window.location.href = 'flipbook.html';
+                    } else if (panel.dataset.panel === '5') {
+                        window.location.href = 'easteregg.html';
+                    } else {
+                        panels.forEach(p => p.classList.remove('active'));
+                        panel.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>
